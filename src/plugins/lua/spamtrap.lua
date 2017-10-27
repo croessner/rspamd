@@ -22,6 +22,54 @@ local redis_params
 local use_redis = false;
 local M = 'spamtrap'
 
+if confighelp then
+  rspamd_config:add_doc(M,
+    'action',
+    'An optional action',
+    {type='string'})
+  rspamd_config:add_doc(M,
+    'map',
+    'A map file containing regexp entries for spamtrap emails and domains',
+    {type='string'})
+  rspamd_config:add_doc(M,
+    'symbol',
+    'Name of the symbol',
+    {default='SPAMTRAP', type='string'})
+  rspamd_config:add_doc(M,
+    'score',
+    'A score for this module',
+    {default=0.0, type='number'})
+  rspamd_config:add_doc(M,
+    'learn_fuzzy',
+    'Flag to enable fuzzy learning',
+    {default=false, type='boolean'})
+  rspamd_config:add_doc(M,
+    'learn_spam',
+    'Flag to enable bayes spam learning',
+    {default=false, type='boolean'}) 
+  rspamd_config:add_doc(M,
+    'fuzzy_flag', 
+    'Fuzzy flag for the spam class',
+    {default=1, type='number'})
+  rspamd_config:add_doc(M,
+    'fuzzy_weight',
+    'Fuzzy weight',
+    {default=10.0, type='number'})
+  rspamd_config:add_doc(M,
+    'key_prefix',
+    'Redis key prefix',
+    {default='sptr_', type='string'})
+  rspamd_config:add_doc(M,
+    'check_authed',
+    'Skip spamtrap checks for authorized users',
+    {default=true, type='boolean'})
+  rspamd_config:add_doc(M,
+    'check_local',
+    'Skip spamtrap checks for local networks',
+    {default=true, type='boolean'})
+  return
+end
+
 local settings = {
   symbol = 'SPAMTRAP',
   score = 0.0,
